@@ -1,0 +1,13 @@
+@import url("semantic-ui-css/semantic.min.css");
+
+body {
+  background-color: lightgray;
+}
+
+/* .ui.fixed.menu {
+  background-image: 
+} */
+
+.ui.main.container {
+  margin-top: 7em;
+}
