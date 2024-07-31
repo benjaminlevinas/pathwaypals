@@ -1,32 +1,109 @@
+import { ChangeEvent, useState } from "react";
 import { Button, Form, Header, Segment } from "semantic-ui-react";
+import { AppEvent } from "../../../app/types/event";
+import { createId } from "@paralleldrive/cuid2";
 
 type Props = {
   openForm: boolean;
   setOpenForm: (value: boolean) => void;
+  addEvent: (event: AppEvent) => void;
+  selectedEvent: AppEvent | null;
+  updateEvent: (event: AppEvent) => void;
 };
 
-export default function EventForm({ setOpenForm, openForm }: Props) {
+export default function EventForm({
+  setOpenForm,
+  openForm,
+  addEvent,
+  selectedEvent,
+  updateEvent,
+}: Props) {
+  const initialValues = selectedEvent ?? {
+    title: "",
+    category: "",
+    description: "",
+    city: "",
+    venue: "",
+    date: "",
+  };
+
+  const [values, setValues] = useState(initialValues);
+
+  function onSubmit() {
+    selectedEvent
+      ? updateEvent({ ...selectedEvent, ...values })
+      : addEvent({
+          ...values,
+          id: createId(),
+          hostedBy: "bob",
+          attendees: [],
+          hostPhotoURL: "",
+        });
+    setOpenForm(false);
+  }
+
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    setValues({ ...values, [name]: value });
+  }
+
   return (
     <Segment clearing>
-      <Header content="Create new meetup" />
-      <Form>
+      <Header content={selectedEvent ? "Update meetup" : "Create new meetup"} />
+      <Form onSubmit={onSubmit}>
         <Form.Field>
-          <input type="text" placeholder="Meetup Title" />
+          <input
+            value={values.title}
+            name="title"
+            onChange={(event) => handleInputChange(event)}
+            type="text"
+            placeholder="Meetup Title"
+          />
         </Form.Field>
         <Form.Field>
-          <input type="text" placeholder="Category" />
+          <input
+            type="text"
+            placeholder="Category"
+            value={values.category}
+            name="category"
+            onChange={(event) => handleInputChange(event)}
+          />
         </Form.Field>
         <Form.Field>
-          <input type="text" placeholder="Description" />
+          <input
+            type="text"
+            placeholder="Description"
+            value={values.description}
+            name="description"
+            onChange={(event) => handleInputChange(event)}
+          />
         </Form.Field>
         <Form.Field>
-          <input type="text" placeholder="City" />
+          <input
+            type="text"
+            placeholder="City"
+            value={values.city}
+            name="city"
+            onChange={(event) => handleInputChange(event)}
+          />
         </Form.Field>
         <Form.Field>
-          <input type="text" placeholder="Location" />
+          <input
+            type="text"
+            placeholder="Venue"
+            value={values.venue}
+            name="venue"
+            onChange={(event) => handleInputChange(event)}
+          />
         </Form.Field>
         <Form.Field>
-          <input type="text" placeholder="Date" />
+          <input
+            type="date"
+            placeholder="Date"
+            value={values.date}
+            name="date"
+            onChange={(event) => handleInputChange(event)}
+          />
         </Form.Field>
         <Button type="submit" floated="right" positive content="Submit" />
         <Button

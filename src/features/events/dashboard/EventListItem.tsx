@@ -12,9 +12,15 @@ import { AppEvent } from "../../../app/types/event";
 
 type Props = {
   event: AppEvent;
+  selectEvent: (event: AppEvent) => void;
+  deleteEvent: (eventID: string) => void;
 };
 
-export default function EventListItem({ event }: Props) {
+export default function EventListItem({
+  event,
+  selectEvent,
+  deleteEvent,
+}: Props) {
   return (
     <SegmentGroup>
       <Segment>
@@ -23,7 +29,7 @@ export default function EventListItem({ event }: Props) {
             <Item.Image
               size="tiny"
               circular
-              src={event.hostPhotoURL}
+              src={event.hostPhotoURL || "/user.png"}
             ></Item.Image>
             <Item.Content>
               <Item.Header content={event.title}></Item.Header>
@@ -48,7 +54,18 @@ export default function EventListItem({ event }: Props) {
       <Segment clearing>
         <span>
           {event.description}
-          <Button color="green" floated="right" content="View Meetup"></Button>
+          <Button
+            color="red"
+            floated="right"
+            content="Delete"
+            onClick={() => deleteEvent(event.id)}
+          ></Button>
+          <Button
+            color="green"
+            floated="right"
+            content="View"
+            onClick={() => selectEvent(event)}
+          ></Button>
         </span>
       </Segment>
     </SegmentGroup>
