@@ -1,36 +1,29 @@
+import { NavLink } from "react-router-dom";
 import { Button, Container, Menu, MenuItem } from "semantic-ui-react";
+import SignedOutButtons from "./SignedOutButtons";
+import SignedInMenu from "./SignedInMenu";
 
-type Props = {
-  setOpenForm: (open: boolean) => void;
-};
-
-export default function NavBar({ setOpenForm }: Props) {
+export default function NavBar() {
   return (
     <Menu inverted={true} fixed="top">
       <Container>
-        <MenuItem header>
+        <MenuItem header as={NavLink} to="/">
           <img src="/logo.png" alt="logo" className="ui mini image" />
           Pathway Pals
         </MenuItem>
-        <MenuItem name="Meetups" />
+        <MenuItem name="Meetups" as={NavLink} to="/meetups" />
         <MenuItem>
           <Button
-            onClick={() => setOpenForm(true)}
+            as={NavLink}
+            to="createMeetup"
             floated="right"
             positive={true}
             inverted={true}
             content="Create Meetup"
+            style={{ backgroundColor: "#335577" }}
           />
         </MenuItem>
-        <MenuItem position="right">
-          <Button basic inverted content="Login" />
-          <Button
-            basic
-            inverted
-            content="Register"
-            style={{ marginLeft: "0.5em" }}
-          />
-        </MenuItem>
+        <SignedInMenu />
       </Container>
     </Menu>
   );

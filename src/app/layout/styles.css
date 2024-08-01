@@ -1,13 +1,26 @@
 @import url("semantic-ui-css/semantic.min.css");
 
 body {
-  background-color: lightgray;
+  background-color: lightblue;
+  background-image: url("https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80") !important;
 }
 
-/* .ui.fixed.menu {
-  background-image: 
-} */
+.ui.fixed.menu {
+  background-image: url("https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80") !important;
+}
 
 .ui.main.container {
   margin-top: 7em;
+}
+
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url("https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80") !important;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  background-color: #ffffff;
 }
