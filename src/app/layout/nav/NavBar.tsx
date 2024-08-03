@@ -2,8 +2,11 @@ import { NavLink } from "react-router-dom";
 import { Button, Container, Menu, MenuItem } from "semantic-ui-react";
 import SignedOutButtons from "./SignedOutButtons";
 import SignedInMenu from "./SignedInMenu";
+import { useState } from "react";
 
 export default function NavBar() {
+  const [auth, setAuth] = useState(false);
+
   return (
     <Menu inverted={true} fixed="top">
       <Container>
@@ -12,6 +15,8 @@ export default function NavBar() {
           Pathway Pals
         </MenuItem>
         <MenuItem name="Meetups" as={NavLink} to="/meetups" />
+        <MenuItem name="Scratch" as={NavLink} to="/scratch" />
+
         <MenuItem>
           <Button
             as={NavLink}
@@ -23,7 +28,11 @@ export default function NavBar() {
             style={{ backgroundColor: "#335577" }}
           />
         </MenuItem>
-        <SignedInMenu />
+        {auth ? (
+          <SignedInMenu setAuth={setAuth} />
+        ) : (
+          <SignedOutButtons setAuth={setAuth} />
+        )}
       </Container>
     </Menu>
   );

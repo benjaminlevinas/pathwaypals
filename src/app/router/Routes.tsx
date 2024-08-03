@@ -3,6 +3,7 @@ import EventDashboard from "../../features/events/dashboard/EventDashboard";
 import App from "../layout/App";
 import EventForm from "../../features/events/Form/EventForm";
 import EventDetails from "../../features/events/dashboard/details/EventDetails";
+import Scratch from "../../features/scratch/Scratch";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,11 @@ export const router = createBrowserRouter([
       {
         path: "/createMeetup",
         element: <EventForm />,
+      },
+
+      {
+        path: "/scratch",
+        element: <Scratch />,
       },
     ],
   },

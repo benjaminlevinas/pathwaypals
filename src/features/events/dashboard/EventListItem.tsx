@@ -9,6 +9,7 @@ import {
 } from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
 import { AppEvent } from "../../../app/types/event";
+import { Link } from "react-router-dom";
 
 type Props = {
   event: AppEvent;
@@ -49,7 +50,13 @@ export default function EventListItem({ event }: Props) {
         <span>
           {event.description}
           <Button color="red" floated="right" content="Delete"></Button>
-          <Button color="green" floated="right" content="View"></Button>
+          <Button
+            as={Link}
+            to={`/events/${event.id}`}
+            color="green"
+            floated="right"
+            content="View"
+          ></Button>
         </span>
       </Segment>
     </SegmentGroup>
