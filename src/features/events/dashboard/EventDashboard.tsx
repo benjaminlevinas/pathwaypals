@@ -1,15 +1,13 @@
 import { Grid } from "semantic-ui-react";
 import EventList from "./EventList";
-import { sampleData } from "../../../app/api/sampleData";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../app/store/store";
 import { AppEvent } from "../../../app/types/event";
-import { useEffect, useState } from "react";
 
 export default function EventDashboard() {
-  const [events, setEvents] = useState<AppEvent[]>([]);
-
-  useEffect(() => {
-    setEvents(sampleData);
-  }, []);
+  const events: AppEvent[] = useSelector(
+    (state: RootState) => state.events.events
+  );
 
   return (
     <Grid>
@@ -22,3 +20,17 @@ export default function EventDashboard() {
     </Grid>
   );
 }
+
+// export default function EventDashboard() {
+
+//   return (
+//     <Grid>
+//       <Grid.Column width={10}>
+//         <EventList events={events} />
+//       </Grid.Column>
+//       <Grid.Column width={6}>
+//         <h2>Filters</h2>
+//       </Grid.Column>
+//     </Grid>
+//   );
+// }

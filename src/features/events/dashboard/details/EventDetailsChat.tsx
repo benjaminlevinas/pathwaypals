@@ -10,7 +10,7 @@ export default function EventDetailsChat() {
         color="teal"
         style={{ border: "none" }}
       >
-        <Header>Chat about this event</Header>
+        <Header>Chat about this meetup</Header>
       </Segment>
 
       <Segment attached>

@@ -1,7 +1,21 @@
 import { Link } from "react-router-dom";
 import { Segment, Image, Item, Header, Button } from "semantic-ui-react";
+import { AppEvent } from "../../../../app/types/event";
 
-export default function EventDetailsHeader() {
+type Props = {
+  event: AppEvent | undefined; // Allow undefined to handle the loading state
+};
+
+export default function EventDetailsHeader({ event }: Props) {
+  if (!event) {
+    return (
+      <Segment basic>
+        <Header content="Loading event..." />
+        {/* You can replace this with a spinner or any other loading indicator */}
+      </Segment>
+    );
+  }
+
   const eventImageStyle = {
     filter: "brightness(30%)",
   };
@@ -10,7 +24,7 @@ export default function EventDetailsHeader() {
     position: "absolute",
     bottom: "5%",
     left: "5%",
-    with: "100%",
+    width: "100%", // Fixed typo from 'with' to 'width'
     height: "auto",
     color: "white",
   };
@@ -19,7 +33,7 @@ export default function EventDetailsHeader() {
     <Segment.Group>
       <Segment basic attached="top" style={{ padding: "0" }}>
         <Image
-          src={`/categoryImages/drinks.jpg`}
+          src={`/categoryImages/${event.category}.jpg`}
           fluid
           style={eventImageStyle}
         />
@@ -30,12 +44,12 @@ export default function EventDetailsHeader() {
               <Item.Content>
                 <Header
                   size="huge"
-                  content="Event Title"
+                  content={event.title}
                   style={{ color: "white" }}
                 />
-                <p>Event Date</p>
+                <p>{event.date}</p>
                 <p>
-                  Hosted by <strong>Bob</strong>
+                  Hosted by <strong>{event.hostedBy}</strong>
                 </p>
               </Item.Content>
             </Item>
@@ -45,10 +59,15 @@ export default function EventDetailsHeader() {
 
       <Segment attached="bottom">
         <Button>Cancel My Place</Button>
-        <Button color="teal">JOIN THIS EVENT</Button>
+        <Button color="teal">JOIN THIS MEETUP</Button>
 
-        <Button as={Link} to={`/manage/abc`} color="orange" floated="right">
-          Manage Event
+        <Button
+          as={Link}
+          to={`/manage/${event.id}`}
+          color="orange"
+          floated="right"
+        >
+          Manage Meetup
         </Button>
       </Segment>
     </Segment.Group>

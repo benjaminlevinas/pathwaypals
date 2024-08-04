@@ -1,31 +1,52 @@
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Form, Header, Segment } from "semantic-ui-react";
+import { AppEvent } from "../../../app/types/event";
+import { RootState } from "@reduxjs/toolkit/query";
+import { useDispatch, useSelector } from "react-redux";
+import { createEvent, updateEvent } from "../eventSlice";
+import { createId } from "@paralleldrive/cuid2";
 
 export default function EventForm() {
-  const initialValues = {
-    title: "",
-    category: "",
-    description: "",
-    city: "",
-    venue: "",
-    date: "",
-  };
+  let { id } = useParams<{ id: string }>(); // Ensure 'id' is typed as a string
+
+  const event = useSelector((state: RootState) =>
+    state.events.events.find((e: AppEvent) => e.id === id)
+  );
+
+  const dispatch = useDispatch();
+
+  const initialValues =
+    event !== undefined
+      ? event
+      : {
+          title: "",
+          category: "",
+          description: "",
+          city: "",
+          venue: "",
+          date: "",
+        };
 
   const [values, setValues] = useState(initialValues);
+  const navigate = useNavigate();
 
   function onSubmit() {
+    id = id ?? createId();
     console.log(values);
-    // selectedEvent
-    //   ? updateEvent({ ...selectedEvent, ...values })
-    //   : addEvent({
-    //       ...values,
-    //       id: createId(),
-    //       hostedBy: "bob",
-    //       attendees: [],
-    //       hostPhotoURL: "",
-    //     });
-    // setOpenForm(false);
+    event !== undefined
+      ? dispatch(updateEvent({ ...event, ...values }))
+      : dispatch(
+          createEvent({
+            ...values,
+            id,
+
+            hostedBy: "bob",
+            attendees: [],
+            hostPhotoURL: "",
+          })
+        );
+    navigate(`/events/${id}`);
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -35,7 +56,9 @@ export default function EventForm() {
 
   return (
     <Segment clearing>
-      <Header content="Create new meetup" />
+      <Header
+        content={event !== undefined ? "Update meetup" : "Create meetup"}
+      />
       <Form onSubmit={onSubmit}>
         <Form.Field>
           <input
