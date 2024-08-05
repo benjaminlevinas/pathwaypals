@@ -11,7 +11,6 @@ export default function EventDetailsHeader({ event }: Props) {
     return (
       <Segment basic>
         <Header content="Loading event..." />
-        {/* You can replace this with a spinner or any other loading indicator */}
       </Segment>
     );
   }
